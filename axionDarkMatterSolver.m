@@ -12,10 +12,10 @@ clc
 % G = ?
 
 N = 128;64;  % resolution
-G = 10000;   % XXX
+G = 10000;   % defines physical scale of problem
 t = 0;
 Tfinal = 10;
-dt = 0.0001; % XXX may wish to implement adaptive, cfl based value
+dt = 0.0001; % may wish to implement adaptive, cfl based value
 g = 0; -0.1;1;0;
 
 
@@ -49,7 +49,6 @@ clear kz;
 % Poisson solver
 Vhat = -fftshift(fftn(4*pi*G*(rho-1))) ./ ( kSq  + (kSq==0));
 V = ifftn(ifftshift(Vhat));
-V = V - max(V(:));
 
 
 fh = figure(1);
@@ -71,7 +70,6 @@ while t < Tfinal
     % potential - (1/2) kick
     Vhat = -fftshift(fftn(4*pi*G*(rho-1))) ./ ( kSq  + (kSq==0));
     V = ifftn(ifftshift(Vhat));
-    V = V - max(V(:));
     psi = exp(-1.i*dt/2*(V + g*rho)).*psi;
     
     t = t + dt
